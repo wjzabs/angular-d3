@@ -33,7 +33,7 @@ export class D3Service {
   applyDraggableBehaviour(element: any, node: Node, graph: ForceDirectedGraph) {
     const d3element = d3.select(element);
 
-    function started(event: any) {
+    const started = (event: any) => {
       /** Preventing propagation of dragstart to parent elements */
       event.sourceEvent.stopPropagation();
 
@@ -41,14 +41,12 @@ export class D3Service {
         graph.simulation.alphaTarget(0.3).restart();
       }
 
-      event.on('drag', dragged).on('end', ended);
-
-      function dragged() {
+      const dragged = () => {
         node.fx = event.x;
         node.fy = event.y;
       }
 
-      function ended(event: any) {
+      const ended = (event: any) => {
         if (!event.active) {
           graph.simulation.alphaTarget(0);
         }
@@ -56,6 +54,8 @@ export class D3Service {
         node.fx = null;
         node.fy = null;
       }
+
+      event.on('drag', dragged).on('end', ended);
     }
 
     d3element.call(d3.drag()

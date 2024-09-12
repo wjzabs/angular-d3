@@ -1,45 +1,44 @@
 import { Component, Input } from '@angular/core';
-import { Link } from '../../../d3';
+import { Link, Node } from '../../../d3';
+
 
 @Component({
   selector: '[linkVisual]',
   template: `
     <svg:line
         class="link"
-        [attr.x1]="_sx"
-        [attr.y1]="_sy"
-        [attr.x2]="_tx"
-        [attr.y2]="_sy"
+        [attr.x1]="sourceX"
+        [attr.y1]="sourceY"
+        [attr.x2]="targetX"
+        [attr.y2]="targetY"
     ></svg:line>
   `,
   styleUrls: ['./link-visual.component.css']
 })
 export class LinkVisualComponent  {
-  // @Input('linkVisual') link!: Link;
+  @Input('linkVisual') link?: Link;
 
-  // [attr.x1]="_sx"
-  // [attr.y1]="_sy"
-  // [attr.x2]="_tx"
-  // [attr.y2]="_sy"
+  sourceX = 0;
+  sourceY = 0;
+  targetX = 0;
+  targetY = 0;
 
-  // [attr.x1]="link.source.x"
-  // [attr.y1]="link.source.y"
-  // [attr.x2]="link.target.x"
-  // [attr.y2]="link.target.y"
-
-  private _link!: Link;
-  protected _sx: number = 0;
-  protected _sy: number = 0;
-  protected _tx: number = 0;
-  protected _ty: number = 0;
-
-  @Input('linkVisual') 
-  public get link() {
-    return this._link;
+  ngOnInit() {
+    this.redraw()
   }
-  public set link(value: Link) {
-    if (value.source as Node) {this._sx = value.source.x}
 
-    this._link = value;
+  redraw() {
+    if(this.link?.source instanceof Node && this.link.source.x) {
+      this.sourceX = this.link.source.x;
+    }
+    if(this.link?.source instanceof Node && this.link.source.y) {
+      this.sourceY = this.link.source.y;
+    }
+    if(this.link?.target instanceof Node && this.link.target.x) {
+      this.targetX = this.link.target.x;
+    }
+    if(this.link?.target instanceof Node && this.link.target.y) {
+      this.targetX = this.link.target.y;
+    }
   }
 }
