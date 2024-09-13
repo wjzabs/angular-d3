@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Link, Node } from '../../../d3';
 
 
@@ -15,7 +15,8 @@ import { Link, Node } from '../../../d3';
   `,
   styleUrls: ['./link-visual.component.css']
 })
-export class LinkVisualComponent  {
+export class LinkVisualComponent implements OnInit, OnChanges {
+
   @Input('linkVisual') link?: Link;
 
   sourceX = 0;
@@ -24,6 +25,10 @@ export class LinkVisualComponent  {
   targetY = 0;
 
   ngOnInit() {
+    this.redraw()
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
     this.redraw()
   }
 

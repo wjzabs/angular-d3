@@ -41,7 +41,8 @@ export class D3Service {
         graph.simulation.alphaTarget(0.3).restart();
       }
 
-      const dragged = () => {
+      const dragged = (event: any) => {
+        // added event to parameter list to resolve drag/drop issue
         node.fx = event.x;
         node.fy = event.y;
       }
